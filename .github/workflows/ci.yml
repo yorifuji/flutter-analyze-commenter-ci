@@ -1,0 +1,46 @@
+name: ci
+
+run-name: ci ${{ (vars.RUNS_ON_SELF_HOSTED == null && '(on GitHub-hosted)') || '(on self-hosted)' }}
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-new-issue:
+    runs-on: ${{ (vars.RUNS_ON_SELF_HOSTED == null && 'ubuntu-latest') || 'self-hosted' }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git push -d origin test/new-issue || true
+          git checkout -b test/new-issue origin/_template/new-issue
+          git push origin test/new-issue
+          gh pr create --base main --head test/new-issue --title "[CI] test issue" --body "[CI] test issue"
+
+  test-summary:
+    runs-on: ${{ (vars.RUNS_ON_SELF_HOSTED == null && 'ubuntu-latest') || 'self-hosted' }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git push -d origin test/summary-head || true
+          git checkout -b test/summary-head origin/_template/summary-head
+          git push origin test/summary-head
+          gh pr create --base _template/summary-base --head test/summary-head --title "[CI] test summary" --body "[CI] test summary"
