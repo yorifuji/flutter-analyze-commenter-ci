@@ -1,6 +1,6 @@
 name: ci
 
-run-name: ci ${{ (vars.RUNS_ON_SELF_HOSTED == null && '(on GitHub-hosted)') || '(on self-hosted)' }}
+run-name: ci
 
 on: workflow_dispatch
 
@@ -14,8 +14,11 @@ concurrency:
 
 jobs:
   test-new-issue:
-    runs-on: ${{ (vars.RUNS_ON_SELF_HOSTED == null && 'ubuntu-latest') || 'self-hosted' }}
+    runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [develop, v1]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,14 +27,17 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git push -d origin test/new-issue || true
-          git checkout -b test/new-issue origin/_template/new-issue
-          git push origin test/new-issue
-          gh pr create --base main --head test/new-issue --title "[CI] Issue" --body "[CI] Issue"
+          git push -d origin test/${{ matrix.branch }}/new-issue || true
+          git checkout -b test/${{ matrix.branch }}/new-issue origin/_template/new-issue
+          git push origin test/${{ matrix.branch }}/new-issue
+          gh pr create --base main --head test/${{ matrix.branch }}/new-issue --title "[CI: test/${{ matrix.branch }}] Issue" --body "[CI: test/${{ matrix.branch }}] Issue"
 
   test-max-issue:
-    runs-on: ${{ (vars.RUNS_ON_SELF_HOSTED == null && 'ubuntu-latest') || 'self-hosted' }}
+    runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [develop, v1]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,14 +46,17 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git push -d origin test/max-issue || true
-          git checkout -b test/max-issue origin/_template/max-issue
-          git push origin test/max-issue
-          gh pr create --base main --head test/max-issue --title "[CI] Max Issue" --body "[CI] Max Issue"
+          git push -d origin test/${{ matrix.branch }}/max-issue || true
+          git checkout -b test/${{ matrix.branch }}/max-issue origin/_template/max-issue
+          git push origin test/${{ matrix.branch }}/max-issue
+          gh pr create --base main --head test/${{ matrix.branch }}/max-issue --title "[CI: test/${{ matrix.branch }}] Max Issue" --body "[CI: test/${{ matrix.branch }}] Max Issue"
 
   test-summary:
-    runs-on: ${{ (vars.RUNS_ON_SELF_HOSTED == null && 'ubuntu-latest') || 'self-hosted' }}
+    runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [develop, v1]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -56,7 +65,7 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git push -d origin test/summary-head || true
-          git checkout -b test/summary-head origin/_template/summary-head
-          git push origin test/summary-head
-          gh pr create --base _template/summary-base --head test/summary-head --title "[CI] Summary" --body "[CI] Summary"
+          git push -d origin test/${{ matrix.branch }}/summary-head || true
+          git checkout -b test/${{ matrix.branch }}/summary-head origin/_template/summary-head
+          git push origin test/${{ matrix.branch }}/summary-head
+          gh pr create --base _template/summary-base --head test/${{ matrix.branch }}/summary-head --title "[CI: test/${{ matrix.branch }}] Summary" --body "[CI: test/${{ matrix.branch }}] Summary"

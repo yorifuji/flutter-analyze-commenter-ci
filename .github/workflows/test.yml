@@ -1,6 +1,6 @@
 name: test
 
-run-name: test ${{ (vars.RUNS_ON_SELF_HOSTED == null && '(on GitHub-hosted)') || '(on self-hosted)' }}
+run-name: test
 
 on:
   pull_request:
@@ -17,9 +17,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    runs-on: ${{ (vars.RUNS_ON_SELF_HOSTED == null && 'ubuntu-latest') || 'self-hosted' }}
+  test-v1:
+    runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: ${{ startsWith(github.ref_name, 'test/v1') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -27,7 +28,30 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: ${{ (vars.RUNS_ON_SELF_HOSTED == null && true) || false }}
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@v1
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  test-develop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ startsWith(github.ref_name, 'test/develop') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
 
       - run: flutter pub get
 
