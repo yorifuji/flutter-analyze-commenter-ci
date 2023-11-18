@@ -12,6 +12,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  GIT_USER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+  GIT_USER_NAME: "github-actions[bot]"
+
 jobs:
   delete-branches:
     runs-on: ubuntu-latest
@@ -55,6 +59,9 @@ jobs:
         run: |
           ut=`date +%s`
           git checkout -b test/${{ matrix.branch }}/new-issue-$ut origin/_template/new-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/new-issue-$ut
           gh pr create --base main --head test/${{ matrix.branch }}/new-issue-$ut --title "[CI: test/${{ matrix.branch }}] Issue" --body "[CI: test/${{ matrix.branch }}] Issue"
 
@@ -75,6 +82,9 @@ jobs:
         run: |
           ut=`date +%s`
           git checkout -b test/${{ matrix.branch }}/max-issue-$ut origin/_template/max-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/max-issue-$ut
           gh pr create --base main --head test/${{ matrix.branch }}/max-issue-$ut --title "[CI: test/${{ matrix.branch }}] Max Issue" --body "[CI: test/${{ matrix.branch }}] Max Issue"
 
@@ -95,5 +105,8 @@ jobs:
         run: |
           ut=`date +%s`
           git checkout -b test/${{ matrix.branch }}/summary-head-$ut origin/_template/summary-head
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/summary-head-$ut
           gh pr create --base _template/summary-base --head test/${{ matrix.branch }}/summary-head-$ut --title "[CI: test/${{ matrix.branch }}] Summary" --body "[CI: test/${{ matrix.branch }}] Summary"
