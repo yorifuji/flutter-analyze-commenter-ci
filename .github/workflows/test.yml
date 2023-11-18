@@ -20,7 +20,7 @@ jobs:
   test-v1:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ startsWith(github.ref_name, 'test/v1') }}
+    if: ${{ startsWith(github.head_ref, 'test/v1') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -43,7 +43,7 @@ jobs:
   test-develop:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ startsWith(github.ref_name, 'test/develop') }}
+    if: ${{ startsWith(github.head_ref, 'test/develop') }}
     steps:
       - uses: actions/checkout@v4
 
