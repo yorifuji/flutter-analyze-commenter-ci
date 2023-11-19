@@ -48,7 +48,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        branch: [develop, v1]
+        branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,7 +71,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        branch: [develop, v1]
+        branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -94,7 +94,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
-        branch: [develop, v1]
+        branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
         with:
