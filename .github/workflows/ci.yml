@@ -88,6 +88,29 @@ jobs:
           git push origin test/${{ matrix.branch }}/max-issue-$ut
           gh pr create --base main --head test/${{ matrix.branch }}/max-issue-$ut --title "[CI: test/${{ matrix.branch }}] Max Issue" --body "[CI: test/${{ matrix.branch }}] Max Issue"
 
+  test-no-issue:
+    needs: delete-branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [main, develop, v1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          ut=`date +%s`
+          git checkout -b test/${{ matrix.branch }}/no-issue-$ut origin/_template/no-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git push origin test/${{ matrix.branch }}/no-issue-$ut
+          gh pr create --base main --head test/${{ matrix.branch }}/no-issue-$ut --title "[CI: test/${{ matrix.branch }}] no Issue" --body "[CI: test/${{ matrix.branch }}] no Issue"
+
   test-summary:
     needs: delete-branches
     runs-on: ubuntu-latest
