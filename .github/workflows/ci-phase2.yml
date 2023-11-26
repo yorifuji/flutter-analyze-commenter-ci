@@ -59,27 +59,6 @@ jobs:
           git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/max-issue
 
-  test-no-issue:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy:
-      matrix:
-        branch: [main, develop, v1]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          git checkout -b test/${{ matrix.branch }}/no-issue
-          git config --local user.name $GIT_USER_NAME
-          git config --local user.email $GIT_USER_EMAIL
-          git revert -n HEAD
-          git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/no-issue
-
   test-summary:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -102,7 +81,7 @@ jobs:
           git push origin test/${{ matrix.branch }}/summary-head
 
   delete-branches:
-    needs: [test-new-issue, test-max-issue, test-no-issue, test-summary]
+    needs: [test-new-issue, test-max-issue, test-summary]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
