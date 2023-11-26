@@ -79,29 +79,3 @@ jobs:
           git revert -n HEAD
           git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/summary-head
-
-  delete-branches:
-    needs: [test-new-issue, test-max-issue, test-summary]
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Delete 'test/' branches
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const pattern = /^test\//;
-            const branches = await github.rest.repos.listBranches({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            for (const branch of branches.data) {
-              console.log(`Checking branch: ${branch.name}`);
-              if (pattern.test(branch.name)) {
-                await github.rest.git.deleteRef({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  ref: `heads/${branch.name}`,
-                });
-                console.log(`Deleted branch: ${branch.name}`);
-              }
-            }
