@@ -36,6 +36,7 @@ jobs:
           git config --local user.email $GIT_USER_EMAIL
           git revert -n HEAD
           git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git commit --allow-empty -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/new-issue
 
   test-max-issue:
@@ -57,6 +58,7 @@ jobs:
           git config --local user.email $GIT_USER_EMAIL
           git revert -n HEAD
           git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git commit --allow-empty -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/max-issue
 
   test-summary:
@@ -78,4 +80,5 @@ jobs:
           git config --local user.email $GIT_USER_EMAIL
           git revert -n HEAD
           git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git commit --allow-empty -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
           git push origin test/${{ matrix.branch }}/summary-head
