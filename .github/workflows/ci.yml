@@ -57,13 +57,12 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          ut=`date +%s`
-          git checkout -b test/${{ matrix.branch }}/new-issue-$ut origin/_template/new-issue
+          git checkout -b test/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/new-issue-$ut
-          gh pr create --base main --head test/${{ matrix.branch }}/new-issue-$ut --title "[CI: test/${{ matrix.branch }}] Issue" --body "[CI: test/${{ matrix.branch }}] Issue"
+          git push origin test/${{ matrix.branch }}/new-issue
+          gh pr create --base main --head test/${{ matrix.branch }}/new-issue --title "[CI: test/${{ matrix.branch }}] Issue" --body "[CI: test/${{ matrix.branch }}] Issue"
 
   test-max-issue:
     needs: delete-branches
@@ -80,13 +79,12 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          ut=`date +%s`
-          git checkout -b test/${{ matrix.branch }}/max-issue-$ut origin/_template/max-issue
+          git checkout -b test/${{ matrix.branch }}/max-issue origin/_template/max-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/max-issue-$ut
-          gh pr create --base main --head test/${{ matrix.branch }}/max-issue-$ut --title "[CI: test/${{ matrix.branch }}] Max Issue" --body "[CI: test/${{ matrix.branch }}] Max Issue"
+          git push origin test/${{ matrix.branch }}/max-issue
+          gh pr create --base main --head test/${{ matrix.branch }}/max-issue --title "[CI: test/${{ matrix.branch }}] Max Issue" --body "[CI: test/${{ matrix.branch }}] Max Issue"
 
   test-no-issue:
     needs: delete-branches
@@ -103,13 +101,12 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          ut=`date +%s`
-          git checkout -b test/${{ matrix.branch }}/no-issue-$ut origin/_template/no-issue
+          git checkout -b test/${{ matrix.branch }}/no-issue origin/_template/no-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/no-issue-$ut
-          gh pr create --base main --head test/${{ matrix.branch }}/no-issue-$ut --title "[CI: test/${{ matrix.branch }}] no Issue" --body "[CI: test/${{ matrix.branch }}] no Issue"
+          git push origin test/${{ matrix.branch }}/no-issue
+          gh pr create --base main --head test/${{ matrix.branch }}/no-issue --title "[CI: test/${{ matrix.branch }}] no Issue" --body "[CI: test/${{ matrix.branch }}] no Issue"
 
   test-summary:
     needs: delete-branches
@@ -126,10 +123,9 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          ut=`date +%s`
-          git checkout -b test/${{ matrix.branch }}/summary-head-$ut origin/_template/summary-head
+          git checkout -b test/${{ matrix.branch }}/summary-head origin/_template/summary-head
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/summary-head-$ut
-          gh pr create --base _template/summary-base --head test/${{ matrix.branch }}/summary-head-$ut --title "[CI: test/${{ matrix.branch }}] Summary" --body "[CI: test/${{ matrix.branch }}] Summary"
+          git push origin test/${{ matrix.branch }}/summary-head
+          gh pr create --base _template/summary-base --head test/${{ matrix.branch }}/summary-head --title "[CI: test/${{ matrix.branch }}] Summary" --body "[CI: test/${{ matrix.branch }}] Summary"
