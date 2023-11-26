@@ -31,7 +31,7 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout test/${{ matrix.branch }}/new-issue origin/test/${{ matrix.branch }}/new-issue
+          git checkout test/${{ matrix.branch }}/new-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git revert -n HEAD
@@ -52,7 +52,7 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout test/${{ matrix.branch }}/max-issue origin/test/${{ matrix.branch }}/max-issue
+          git checkout test/${{ matrix.branch }}/max-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git revert -n HEAD
@@ -73,7 +73,7 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout test/${{ matrix.branch }}/summary-head origin/test/${{ matrix.branch }}/summary-head
+          git checkout test/${{ matrix.branch }}/summary-head
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git revert -n HEAD
