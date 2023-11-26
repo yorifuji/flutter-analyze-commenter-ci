@@ -1,6 +1,6 @@
-name: ci
+name: ci-phase1
 
-run-name: ci
+run-name: ci-phase1
 
 on: workflow_dispatch
 

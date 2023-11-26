@@ -1,0 +1,128 @@
+name: ci-phase2
+
+run-name: ci-phase2
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GIT_USER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+  GIT_USER_NAME: "github-actions[bot]"
+
+jobs:
+  test-new-issue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [main, develop, v1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git checkout -b test/${{ matrix.branch }}/new-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git revert -n HEAD
+          git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git push origin test/${{ matrix.branch }}/new-issue
+
+  test-max-issue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [main, develop, v1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git checkout -b test/${{ matrix.branch }}/max-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git revert -n HEAD
+          git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git push origin test/${{ matrix.branch }}/max-issue
+
+  test-no-issue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [main, develop, v1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git checkout -b test/${{ matrix.branch }}/no-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git revert -n HEAD
+          git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git push origin test/${{ matrix.branch }}/no-issue
+
+  test-summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        branch: [main, develop, v1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git checkout -b test/${{ matrix.branch }}/summary-head
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git revert -n HEAD
+          git commit -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
+          git push origin test/${{ matrix.branch }}/summary-head
+
+  delete-branches:
+    needs: [test-new-issue, test-max-issue, test-no-issue, test-summary]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Delete 'test/' branches
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pattern = /^test\//;
+            const branches = await github.rest.repos.listBranches({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            for (const branch of branches.data) {
+              console.log(`Checking branch: ${branch.name}`);
+              if (pattern.test(branch.name)) {
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `heads/${branch.name}`,
+                });
+                console.log(`Deleted branch: ${branch.name}`);
+              }
+            }
