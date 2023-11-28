@@ -48,6 +48,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
@@ -57,12 +58,12 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout -b test/${{ matrix.branch }}/new-issue origin/_template/new-issue
+          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/new-issue
-          gh pr create --base main --head test/${{ matrix.branch }}/new-issue --title "[CI: test/${{ matrix.branch }}] Issue" --body "[CI: test/${{ matrix.branch }}] Issue"
+          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git push origin test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
+          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue"
 
   test-max-issue:
     needs: delete-branches
@@ -70,6 +71,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
@@ -79,12 +81,12 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout -b test/${{ matrix.branch }}/max-issue origin/_template/max-issue
+          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/max-issue origin/_template/max-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/max-issue
-          gh pr create --base main --head test/${{ matrix.branch }}/max-issue --title "[CI: test/${{ matrix.branch }}] Max Issue" --body "[CI: test/${{ matrix.branch }}] Max Issue"
+          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git push origin test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
+          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/max-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue"
 
   test-no-issue:
     needs: delete-branches
@@ -92,6 +94,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
@@ -101,12 +104,12 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout -b test/${{ matrix.branch }}/no-issue origin/_template/no-issue
+          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/no-issue origin/_template/no-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/no-issue
-          gh pr create --base main --head test/${{ matrix.branch }}/no-issue --title "[CI: test/${{ matrix.branch }}] no Issue" --body "[CI: test/${{ matrix.branch }}] no Issue"
+          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git push origin test/${{ matrix.os }}/${{ matrix.branch }}/no-issue
+          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/no-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] no Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] no Issue"
 
   test-summary:
     needs: delete-branches
@@ -114,6 +117,7 @@ jobs:
     timeout-minutes: 30
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         branch: [main, develop, v1]
     steps:
       - uses: actions/checkout@v4
@@ -123,9 +127,9 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git checkout -b test/${{ matrix.branch }}/summary-head origin/_template/summary-head
+          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/summary-head origin/_template/summary-head
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(git log -1 --pretty=%B) $(date +%s) ${{ matrix.branch }}"
-          git push origin test/${{ matrix.branch }}/summary-head
-          gh pr create --base _template/summary-base --head test/${{ matrix.branch }}/summary-head --title "[CI: test/${{ matrix.branch }}] Summary" --body "[CI: test/${{ matrix.branch }}] Summary"
+          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git push origin test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
+          gh pr create --base _template/summary-base --head test/${{ matrix.os }}/${{ matrix.branch }}/summary-head --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary"
