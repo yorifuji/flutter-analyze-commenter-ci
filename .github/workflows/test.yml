@@ -11,10 +11,10 @@ permissions:
   statuses: write
 
 jobs:
-  test-main:
+  ubuntu-main:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'test/main') }}
+    if: ${{ contains(github.head_ref, 'main') && contains(github.head_ref, 'ubuntu-latest') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -34,10 +34,10 @@ jobs:
           analyze_log: flutter_analyze.log
           verbose: true
 
-  test-develop:
+  ubuntu-develop:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'test/develop') }}
+    if: ${{ contains(github.head_ref, 'develop') && contains(github.head_ref, 'ubuntu-latest') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -57,10 +57,148 @@ jobs:
           analyze_log: flutter_analyze.log
           verbose: true
 
-  test-v1:
+  ubuntu-v1:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'test/v1') }}
+    if: ${{ contains(github.head_ref, 'ubuntu-latest') && contains(github.head_ref, 'v1') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@v1
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  macos-main:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    if: ${{ contains(github.head_ref, 'main') && contains(github.head_ref, 'macos-latest') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@main
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  macos-develop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ contains(github.head_ref, 'develop') && contains(github.head_ref, 'macos-latest') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@develop
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  macos-v1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ contains(github.head_ref, 'macos-latest') && contains(github.head_ref, 'v1') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@v1
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  windows-main:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'main') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@main
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  windows-develop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'develop') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - run: flutter analyze --write=flutter_analyze.log || true
+
+      - uses: yorifuji/flutter-analyze-commenter@develop
+        if: ${{ !cancelled() }}
+        with:
+          analyze_log: flutter_analyze.log
+          verbose: true
+
+  windows-v1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'v1') }}
     steps:
       - uses: actions/checkout@v4
 
