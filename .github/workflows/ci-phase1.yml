@@ -63,7 +63,6 @@ jobs:
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
-          sleep $(($RANDOM % 20))
           gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue"
 
   test-max-issue:
@@ -87,7 +86,6 @@ jobs:
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
-          sleep $(($RANDOM % 20))
           gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/max-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue"
 
   # test-no-issue:
@@ -134,5 +132,4 @@ jobs:
           git config --local user.email $GIT_USER_EMAIL
           git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
-          sleep $(($RANDOM % 20))
           gh pr create --base _template/summary-base --head test/${{ matrix.os }}/${{ matrix.branch }}/summary-head --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary"
