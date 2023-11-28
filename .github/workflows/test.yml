@@ -104,7 +104,7 @@ jobs:
           verbose: true
 
   macos-develop:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 30
     if: ${{ contains(github.head_ref, 'develop') && contains(github.head_ref, 'macos-latest') }}
     steps:
@@ -127,7 +127,7 @@ jobs:
           verbose: true
 
   macos-v1:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 30
     if: ${{ contains(github.head_ref, 'macos-latest') && contains(github.head_ref, 'v1') }}
     steps:
@@ -173,7 +173,7 @@ jobs:
           verbose: true
 
   windows-develop:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 30
     if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'develop') }}
     steps:
@@ -196,7 +196,7 @@ jobs:
           verbose: true
 
   windows-v1:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 30
     if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'v1') }}
     steps:
