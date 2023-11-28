@@ -22,7 +22,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -45,7 +44,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -68,7 +66,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -91,7 +88,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -114,7 +110,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -137,7 +132,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -160,7 +154,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -183,7 +176,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
@@ -206,7 +198,6 @@ jobs:
         with:
           flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
           channel: stable
-          cache: true
 
       - run: flutter pub get
 
