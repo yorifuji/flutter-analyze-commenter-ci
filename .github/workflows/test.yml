@@ -14,7 +14,7 @@ jobs:
   ubuntu-main:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'main') && contains(github.head_ref, 'ubuntu-latest') }}
+    if: ${{ startsWith(github.head_ref, 'test/ubuntu-latest/main') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -36,7 +36,7 @@ jobs:
   ubuntu-develop:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'develop') && contains(github.head_ref, 'ubuntu-latest') }}
+    if: ${{ startsWith(github.head_ref, 'test/ubuntu-latest/develop') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -58,7 +58,7 @@ jobs:
   ubuntu-v1:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'ubuntu-latest') && contains(github.head_ref, 'v1') }}
+    if: ${{ startsWith(github.head_ref, 'test/ubuntu-latest/v1') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -80,7 +80,7 @@ jobs:
   macos-main:
     runs-on: macos-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'main') && contains(github.head_ref, 'macos-latest') }}
+    if: ${{ startsWith(github.head_ref, 'test/macos-latest/main') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -102,7 +102,7 @@ jobs:
   macos-develop:
     runs-on: macos-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'develop') && contains(github.head_ref, 'macos-latest') }}
+    if: ${{ startsWith(github.head_ref, 'test/macos-latest/develop') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -124,7 +124,7 @@ jobs:
   macos-v1:
     runs-on: macos-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'macos-latest') && contains(github.head_ref, 'v1') }}
+    if: ${{ startsWith(github.head_ref, 'test/macos-latest/v1') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -146,7 +146,7 @@ jobs:
   windows-main:
     runs-on: windows-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'main') }}
+    if: ${{ startsWith(github.head_ref, 'test/windows-latest/main') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -168,7 +168,7 @@ jobs:
   windows-develop:
     runs-on: windows-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'develop') }}
+    if: ${{ startsWith(github.head_ref, 'test/windows-latest/develop') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -190,7 +190,7 @@ jobs:
   windows-v1:
     runs-on: windows-latest
     timeout-minutes: 30
-    if: ${{ contains(github.head_ref, 'windows-latest') && contains(github.head_ref, 'v1') }}
+    if: ${{ startsWith(github.head_ref, 'test/windows-latest/v1') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -208,3 +208,47 @@ jobs:
         with:
           analyze_log: flutter_analyze.log
           verbose: true
+
+  ubuntu-main-danger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ startsWith(github.head_ref, 'danger/ubuntu-latest/main') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ (vars.FLUTTER_VERSION != null && vars.FLUTTER_VERSION) || '' }}
+          channel: stable
+
+      - run: flutter pub get
+
+      - name: Install matcher
+        run: echo "::add-matcher::.github/analyzer-problem-matcher.json"
+
+      - name: Run flutter analyze
+        shell: bash
+        run: |
+          flutter analyze | tee ./flutter_analyze_report.txt
+
+      - name: Remove matcher
+        if: always()
+        run: echo "::remove-matcher owner=dart-analyzer::"
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        if: always()
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Run danger to add comments to PullRequest
+        uses: MeilCli/danger-action@v5
+        if: always()
+        with:
+          plugins_file: ".github/Gemfile"
+          install_path: "vendor/bundle"
+          danger_file: ".github/Dangerfile"
+          danger_id: "danger-pr"
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}

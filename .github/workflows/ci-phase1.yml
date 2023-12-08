@@ -25,7 +25,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const pattern = /^test\//;
+            const pattern = /^(test|danger)\//;
             const branches = await github.rest.repos.listBranches({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -133,3 +133,26 @@ jobs:
           git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
           gh pr create --base _template/summary-base --head test/${{ matrix.os }}/${{ matrix.branch }}/summary-head --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary"
+
+  danger-test-new-issue:
+    needs: delete-branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        branch: [main]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git checkout -b danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
+          git config --local user.name $GIT_USER_NAME
+          git config --local user.email $GIT_USER_EMAIL
+          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git push origin danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
+          gh pr create --base main --head danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue"
