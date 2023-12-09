@@ -64,7 +64,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
 
       - env:
-          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
@@ -82,10 +82,6 @@ jobs:
         os: [ubuntu-latest]
         branch: [main, develop, v1]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Generate a token
         id: generate_token
         uses: actions/create-github-app-token@v1
@@ -93,13 +89,18 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
+
       - env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
-          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/max-issue origin/_template/max-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/max-issue origin/_template/max-issue
+          git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
           gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/max-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue"
 
@@ -135,10 +136,6 @@ jobs:
         os: [ubuntu-latest]
         branch: [main, develop, v1]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Generate a token
         id: generate_token
         uses: actions/create-github-app-token@v1
@@ -146,13 +143,18 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
+
       - env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
-          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/summary-head origin/_template/summary-head
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/summary-head origin/_template/summary-head
+          git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
           gh pr create --base _template/summary-base --head test/${{ matrix.os }}/${{ matrix.branch }}/summary-head --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Summary"
 
@@ -165,10 +167,6 @@ jobs:
         os: [ubuntu-latest]
         branch: [main]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: Generate a token
         id: generate_token
         uses: actions/create-github-app-token@v1
@@ -176,12 +174,17 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
+
       - env:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
-          git checkout -b danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
-          git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git checkout -b danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
+          git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           gh pr create --base main --head danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue"
