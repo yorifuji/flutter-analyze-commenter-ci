@@ -2,20 +2,30 @@ name: clean-branches
 
 run-name: Clean branches
 
-on: workflow_dispatch
+on:
+  workflow_call:
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  delete-branches:
+  clean-branches:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Delete branches
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Clean branches
         uses: actions/github-script@v7
         with:
+          github-token: ${{ steps.generate_token.outputs.token }}
           script: |
             const pattern = /^(test|danger)\//;
             const branches = await github.rest.repos.listBranches({
