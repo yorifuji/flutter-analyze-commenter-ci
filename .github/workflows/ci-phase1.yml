@@ -64,7 +64,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
 
       - env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git config --local user.name $GIT_USER_NAME
