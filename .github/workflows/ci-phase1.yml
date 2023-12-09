@@ -69,7 +69,7 @@ jobs:
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
-          git commit --amend --author="$GIT_USER_NAME $GIT_USER_EMAIL" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue"
 
