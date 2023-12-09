@@ -55,8 +55,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git config --local user.name $GIT_USER_NAME
@@ -78,8 +85,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/max-issue origin/_template/max-issue
           git config --local user.name $GIT_USER_NAME
@@ -124,8 +138,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/summary-head origin/_template/summary-head
           git config --local user.name $GIT_USER_NAME
@@ -147,8 +168,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
         run: |
           git checkout -b danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git config --local user.name $GIT_USER_NAME
