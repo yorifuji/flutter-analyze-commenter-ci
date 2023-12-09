@@ -25,17 +25,24 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         branch: [main, develop, v1]
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - run: |
-          git checkout test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
+          git checkout test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           git revert -n HEAD
-          git commit -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git commit --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git commit --allow-empty -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
 
@@ -47,17 +54,24 @@ jobs:
         os: [ubuntu-latest]
         branch: [main, develop, v1]
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - run: |
-          git checkout test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
+          git checkout test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
           git revert -n HEAD
-          git commit -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git commit --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git commit --allow-empty -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
 
@@ -69,17 +83,24 @@ jobs:
         os: [ubuntu-latest]
         branch: [main, develop, v1]
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - run: |
-          git checkout test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
+          git checkout test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
           git revert -n HEAD
-          git commit -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git commit --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git commit --allow-empty -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
 
@@ -91,16 +112,23 @@ jobs:
         os: [ubuntu-latest]
         branch: [main]
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - run: |
-          git checkout danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           git config --local user.name $GIT_USER_NAME
           git config --local user.email $GIT_USER_EMAIL
+          git checkout danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           git revert -n HEAD
-          git commit -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+          git commit --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git commit --allow-empty -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
