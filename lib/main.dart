@@ -6,7 +6,6 @@ void main() {
   // 3
   // 4
   // 5
-  final String x = 0;
   runApp(const MyApp());
 }
 
