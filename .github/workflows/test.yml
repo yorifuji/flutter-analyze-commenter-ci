@@ -25,7 +25,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -47,7 +47,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -69,7 +69,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -91,7 +91,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -113,7 +113,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -135,7 +135,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -157,7 +157,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -179,7 +179,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -201,7 +201,7 @@ jobs:
 
       - run: flutter pub get
 
-      - run: flutter analyze --write=flutter_analyze.log || true
+      - run: flutter analyze --write=flutter_analyze.log
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
