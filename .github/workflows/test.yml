@@ -52,7 +52,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           verbose: true
 
   ubuntu-v1:
@@ -118,7 +118,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           verbose: true
 
   macos-v1:
@@ -184,7 +184,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           verbose: true
 
   windows-v1:
