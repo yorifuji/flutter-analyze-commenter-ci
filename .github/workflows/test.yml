@@ -26,6 +26,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -48,6 +49,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -70,6 +72,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -92,6 +95,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -114,6 +118,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -136,6 +141,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -158,6 +164,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -180,6 +187,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -202,6 +210,7 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
+        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -228,23 +237,24 @@ jobs:
 
       - name: Run flutter analyze
         shell: bash
+        continue-on-error: true
         run: |
           flutter analyze | tee ./flutter_analyze_report.txt
 
       - name: Remove matcher
-        if: always()
+        if: ${{ !cancelled() }}
         run: echo "::remove-matcher owner=dart-analyzer::"
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-        if: always()
+        if: ${{ !cancelled() }}
         with:
           ruby-version: "3.2"
           bundler-cache: true
 
       - name: Run danger to add comments to PullRequest
         uses: MeilCli/danger-action@v5
-        if: always()
+        if: ${{ !cancelled() }}
         with:
           plugins_file: ".github/Gemfile"
           install_path: "vendor/bundle"
