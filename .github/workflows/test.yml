@@ -26,7 +26,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -49,7 +48,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -72,7 +70,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -95,7 +92,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -118,7 +114,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -141,7 +136,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -164,7 +158,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
@@ -187,7 +180,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@develop
         if: ${{ !cancelled() }}
@@ -210,7 +202,6 @@ jobs:
       - run: flutter pub get
 
       - run: flutter analyze --write=flutter_analyze.log
-        continue-on-error: true
 
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
@@ -237,7 +228,6 @@ jobs:
 
       - name: Run flutter analyze
         shell: bash
-        continue-on-error: true
         run: |
           flutter analyze | tee ./flutter_analyze_report.txt
 
