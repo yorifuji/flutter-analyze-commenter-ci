@@ -30,7 +30,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           verbose: true
 
   ubuntu-develop:
@@ -74,7 +74,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           # verbose: true
 
   macos-main:
@@ -96,7 +96,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           verbose: true
 
   macos-develop:
@@ -140,7 +140,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           # verbose: true
 
   windows-main:
@@ -162,7 +162,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@main
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           verbose: true
 
   windows-develop:
@@ -206,7 +206,7 @@ jobs:
       - uses: yorifuji/flutter-analyze-commenter@v1
         if: ${{ !cancelled() }}
         with:
-          analyze_log: flutter_analyze.log
+          analyze-log: flutter_analyze.log
           # verbose: true
 
   ubuntu-main-danger:
