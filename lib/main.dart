@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  final int x = 0;
+  final String x = 0;
   runApp(const MyApp());
 }
 
