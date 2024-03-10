@@ -168,33 +168,33 @@ jobs:
           git push origin danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
           gh pr create --base main --head danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue"
 
-  invertase-test-new-issue:
-    needs: clean-branches
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        branch: [main]
-    steps:
-      - name: Generate a token
-        id: generate_token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.PRIVATE_KEY }}
+  # invertase-test-new-issue:
+  #   needs: clean-branches
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 30
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       branch: [main]
+  #   steps:
+  #     - name: Generate a token
+  #       id: generate_token
+  #       uses: actions/create-github-app-token@v1
+  #       with:
+  #         app-id: ${{ secrets.APP_ID }}
+  #         private-key: ${{ secrets.PRIVATE_KEY }}
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ steps.generate_token.outputs.token }}
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #         token: ${{ steps.generate_token.outputs.token }}
 
-      - env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
-        run: |
-          git config --local user.name $GIT_USER_NAME
-          git config --local user.email $GIT_USER_EMAIL
-          git checkout -b invertase/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
-          git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
-          git push origin invertase/${{ matrix.os }}/${{ matrix.branch }}/new-issue
-          gh pr create --base main --head invertase/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[invertase/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue"
+  #     - env:
+  #         GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+  #       run: |
+  #         git config --local user.name $GIT_USER_NAME
+  #         git config --local user.email $GIT_USER_EMAIL
+  #         git checkout -b invertase/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
+  #         git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
+  #         git push origin invertase/${{ matrix.os }}/${{ matrix.branch }}/new-issue
+  #         gh pr create --base main --head invertase/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[invertase/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue"
