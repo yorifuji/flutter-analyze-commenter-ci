@@ -50,7 +50,7 @@ jobs:
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/new-issue
-          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "test/${{ matrix.os }}/${{ matrix.branch }}/Issue"
+          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "test/${{ matrix.os }}/${{ matrix.branch }}/issue" --body "test/${{ matrix.os }}/${{ matrix.branch }}/Issue"
 
   test-max-issue:
     needs: clean-branches
@@ -81,7 +81,7 @@ jobs:
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/max-issue origin/_template/max-issue
           git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/max-issue
-          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/max-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] Max Issue" --body "test/${{ matrix.os }}/${{ matrix.branch }}/max-issue"
+          gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/max-issue --title "test/${{ matrix.os }}/${{ matrix.branch }}/max-issue" --body "test/${{ matrix.os }}/${{ matrix.branch }}/max-issue"
 
   # test-no-issue:
   #   needs: clean-branches
@@ -104,7 +104,7 @@ jobs:
   #         git config --local user.email $GIT_USER_EMAIL
   #         git commit --amend -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
   #         git push origin test/${{ matrix.os }}/${{ matrix.branch }}/no-issue
-  #         gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/no-issue --title "[test/${{ matrix.os }}/${{ matrix.branch }}] no Issue" --body "test/${{ matrix.os }}/${{ matrix.branch }}/no-issue"
+  #         gh pr create --base main --head test/${{ matrix.os }}/${{ matrix.branch }}/no-issue --title "test/${{ matrix.os }}/${{ matrix.branch }}/no-issue" --body "test/${{ matrix.os }}/${{ matrix.branch }}/no-issue"
 
   test-summary:
     needs: clean-branches
@@ -135,7 +135,7 @@ jobs:
           git checkout -b test/${{ matrix.os }}/${{ matrix.branch }}/summary-head origin/_template/summary-head
           git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin test/${{ matrix.os }}/${{ matrix.branch }}/summary-head
-          gh pr create --base _template/summary-base --head test/${{ matrix.os }}/${{ matrix.branch }}/summary-head --title "test/${{ matrix.os }}/${{ matrix.branch }}] Summary" --body "test/${{ matrix.os }}/${{ matrix.branch }}/summary"
+          gh pr create --base _template/summary-base --head test/${{ matrix.os }}/${{ matrix.branch }}/summary-head --title "test/${{ matrix.os }}/${{ matrix.branch }}/summary" --body "test/${{ matrix.os }}/${{ matrix.branch }}/summary"
 
   danger-test-new-issue:
     needs: clean-branches
@@ -166,7 +166,7 @@ jobs:
           git checkout -b danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue origin/_template/new-issue
           git commit --amend --author="$GIT_USER_NAME <$GIT_USER_EMAIL>" -m "$(date +%s) ${{ matrix.os }}/${{ matrix.branch }}"
           git push origin danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue
-          gh pr create --base main --head danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "[danger/${{ matrix.os }}/${{ matrix.branch }}] Issue" --body "danger/${{ matrix.os }}/${{ matrix.branch }}/issue"
+          gh pr create --base main --head danger/${{ matrix.os }}/${{ matrix.branch }}/new-issue --title "danger/${{ matrix.os }}/${{ matrix.branch }}/issue" --body "danger/${{ matrix.os }}/${{ matrix.branch }}/issue"
 
   # invertase-test-new-issue:
   #   needs: clean-branches
