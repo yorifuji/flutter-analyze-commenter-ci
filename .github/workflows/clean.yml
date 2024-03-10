@@ -27,7 +27,7 @@ jobs:
         with:
           github-token: ${{ steps.generate_token.outputs.token }}
           script: |
-            const pattern = /^(test|danger)\//;
+            const pattern = /^(test|danger|invertase)\//;
             const branches = await github.rest.repos.listBranches({
               owner: context.repo.owner,
               repo: context.repo.repo,
