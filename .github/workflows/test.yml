@@ -75,7 +75,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           analyze-log: flutter_analyze.log
-          # verbose: true
+          verbose: true
 
   macos-main:
     runs-on: macos-latest
@@ -141,7 +141,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           analyze-log: flutter_analyze.log
-          # verbose: true
+          verbose: true
 
   windows-main:
     runs-on: windows-latest
@@ -207,7 +207,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           analyze-log: flutter_analyze.log
-          # verbose: true
+          verbose: true
 
   ubuntu-main-danger:
     runs-on: ubuntu-latest
