@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   // 5
+  final String x = 0;
   runApp(const MyApp());
 }
 
