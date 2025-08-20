@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  final String x = 0;
+  final String x = 1;
+  final String x = 2;
+  final String x = 3;
+  final String x = 4;
+  final String x = 5;
+  final String x = 6;
+  final String x = 7;
+  final String x = 8;
+  final String x = 9;
   runApp(const MyApp());
 }
 
